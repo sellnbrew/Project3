@@ -6,32 +6,31 @@
 #include <string>
 using namespace std;
 
-ErrorCheck::ErrorCheck(){
+ErrorCheck::ErrorCheck(){//nothin in here?
 
 }
 ErrorCheck::~ErrorCheck(){
 }
-void ErrorCheck::setFile(string fileName){
+void ErrorCheck::setFile(string fileName){//sets file name
   this->fileName = fileName;
 }
-void ErrorCheck::check(){
+void ErrorCheck::check(){//error checking
   GenStack <char> myStack;
   string line;
-
   ifstream file;
   file.open(fileName);
   int count=0;
   while(file){
     count++;
-    getline(file, line);
-    for(char c: line){
+    getline(file, line);//get line of file
+    for(char c: line){//itterates through each char of file
       if(c=='{'||c=='['||c=='('){
-        myStack.push(c);
+        myStack.push(c);//pushes openers
       }
       else if(c=='}'||c==']'||c==')'){
         if(myStack.isEmpty()==0){
           topStack = myStack.peak();
-          if(topStack !='{'&& c=='}'){
+          if(topStack !='{'&& c=='}'){//checks if closer and compairs to last item in stack
             cout<<"Error expected } at line: "<<count<<endl;
             myStack.~GenStack();
             exit(0);
@@ -46,7 +45,7 @@ void ErrorCheck::check(){
             myStack.~GenStack();
             exit(0);
           }
-          else{
+          else{//if it lines up then it removes item from stack
             myStack.pop();
             continue;
           }
@@ -59,12 +58,12 @@ void ErrorCheck::check(){
         }
       }
     }
-    if(myStack.isEmpty()==1){
+    if(myStack.isEmpty()==1){//if empty no errors
       cout<<"No errors detected"<<endl;
       myStack.~GenStack();
       exit(0);
     }
-    else if(myStack.isEmpty()==0){
+    else if(myStack.isEmpty()==0){//if not empty its missing a closer
       cout<<"Error: reached end of file closer expected"<<endl;
       myStack.~GenStack();
       exit(0);
